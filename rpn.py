@@ -9,5 +9,5 @@ class rpn:
         df=gpd.read_file(path)       
         return df 
     
-    def observateurs(self):
+    def observateurs(self):#TODO gerer les observateurs multiples sur une obs
         return sorted(list(self.data.observ.unique()))

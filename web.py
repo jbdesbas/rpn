@@ -1,5 +1,6 @@
-from flask import Flask,render_template,request, flash
+from flask import Flask,render_template,request, flash,url_for
 import os,uuid
+import rpn
 from zipfile import ZipFile
 app = Flask(__name__)
 
@@ -24,8 +25,12 @@ def form_data():
             file.save('data/'+uniquename+'.'+file.filename.split('.')[-1])
             flash(file.filename,'file')
         flash(uniquename,'token')
-        return render_template('formLoadData.html')
+        return render_template('formLoadData.html',token=uniquename)
 
+@app.route('/rapport/<token>')
+def rapport(token):
+    r=rpn.rpn('data/'+token+'.shp')
+    return render_template('rapport.html',observateurs=r.observateurs())
 
 if __name__ == '__main__':
     app.secret_key = os.urandom(24)
