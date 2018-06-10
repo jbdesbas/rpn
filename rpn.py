@@ -17,11 +17,26 @@ class rpn:
         return sorted(list_obs)
 
 class token:
-    def __init__(self):
-        self.uuid=str(uuid.uuid4())
+    def __init__(self,id=False):
+        if not id:
+            self.id=str(uuid.uuid4())
+        else:
+            self.id=id
     
     def extension(self):
-        for ext in ['shp','gpkg']:
-            if os.path.exists('data/temp/'+self.uuid+'.'+ext):
+        for ext in ['shp','gpkg','geojson']:
+            if os.path.exists('data/temp/'+self.id+'.'+ext):
                 return ext
         return False
+    
+    def exists(self):
+        if self.extension():
+            return True
+        return False
+    
+    def save_file(self,ext='GPKG'):
+        if self.exists():
+            gpd.read_file('data/temp/'+self.id+'.'+self.extension()).to_file('data/'+self.id+'.gpkg','GPKG')
+            return True
+        return False
+        

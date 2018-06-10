@@ -18,14 +18,15 @@ def form_data():
         if file.filename.endswith('.zip'):
             z=ZipFile(file)
             for f in z.namelist():
-                with open('data/temp/'+token.uuid+'.'+f.split('.')[-1],'wb') as dest :
+                with open('data/temp/'+token.id+'.'+f.split('.')[-1],'wb') as dest :
                     dest.write(z.open(f).read())
                 flash(f,'file')
         else:
-            file.save('data/temp/'+token.uuid+'.'+file.filename.split('.')[-1])
+            file.save('data/temp/'+token.id+'.'+file.filename.split('.')[-1])
             flash(file.filename,'file')
-        flash(token.uuid,'token')
-        return render_template('formLoadData.html',token=token.uuid)
+        flash(token.id,'token')
+        token.save_file()
+        return render_template('formLoadData.html',token=token.id)
 
 @app.route('/rapport/<token>')
 def rapport(token):
