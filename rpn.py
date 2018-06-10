@@ -1,24 +1,32 @@
 import geopandas as gpd
 import os,uuid
+import sqlite3
 
 class rpn:
     
-    def __init__(self,path):
-        self.data=self.loadData(path)
-   
+    def __init__(self,token):
+        #self.data=self.loadData(path)
+        self.conn=sqlite3.connect('data/database.gpkg')
+        self.conn.row_factory = sqlite3.Row
+        self.c=self.conn.cursor()
+        self.token=token
+    
     def loadData(self,path): #Charger un shape (ou autre)
         df=gpd.read_file(path)       
         return df 
     
     def observateurs(self,split=True):
-        list_obs=list(self.data.observ.unique())
-        if split:
-            list_obs=list(set(','.join(list_obs).split(',')))
-        return sorted(list_obs)
-
+        r=self.c.execute('SELECT DISTINCT observ as nom FROM "'+self.token.id+'"')
+        return list(map(dict,r.fetchall()))
+    
     def especes(self):
-        sp=list(self.data.nom_f.unique())
-        return sorted(sp)
+        r=self.c.execute('SELECT DISTINCT nom_f FROM "'+self.token.id+'"')
+        return list(map(dict,r.fetchall()))
+    
+    def test(self):
+        ca=self.c.execute('SELECT CD_NOM FROM taxref LIMIT 10')
+        return ca
+        
 
 class token:
     def __init__(self,id=False):
@@ -41,6 +49,12 @@ class token:
     def save_file(self,ext='GPKG'):
         if self.exists():
             gpd.read_file('data/temp/'+self.id+'.'+self.extension()).to_file('data/'+self.id+'.gpkg','GPKG')
+            return True
+        return False
+    
+    def save_to_db(self):
+        if self.exists():
+            gpd.read_file('data/temp/'+self.id+'.'+self.extension()).to_file('data/database.gpkg','GPKG',layer=self.id)
             return True
         return False
         

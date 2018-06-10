@@ -25,12 +25,13 @@ def form_data():
             file.save('data/temp/'+token.id+'.'+file.filename.split('.')[-1])
             flash(file.filename,'file')
         flash(token.id,'token')
+        token.save_to_db()
         token.save_file()
         return render_template('formLoadData.html',token=token.id)
 
 @app.route('/rapport/<token>')
 def rapport(token):
-    r=rpn.rpn('data/'+token+'.gpkg')
+    r=rpn.rpn(rpn.token(token))
     return render_template('rapport.html',observateurs=r.observateurs(),especes=r.especes())
 
 if __name__ == '__main__':

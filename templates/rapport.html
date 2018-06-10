@@ -1,27 +1,34 @@
 {% extends 'base.html' %}
 
-
 {% block header %}
     <h2>{% block title %}Rapport{% endblock %}</h2>
 {% endblock %}
 
+{% set toto %}
+ hahahahahhohoho
+{% endset %}
 
 {% block content %}
     <div class="card">
-    <div class="card-header">observateurs :</div>
-          <div class="panel-body"> 
+        <div class="card-header">observateurs :</div>
+        <div class="panel-body"> 
             <ul class="list-unstyled">
-         {% for observateur in observateurs %}
-             <li>{{observateur}}</li>
-         {% endfor %}
-        </ul>
+                {% for observateur in observateurs %}
+                <li>{{observateur["nom"]}} </li> 
+                {% endfor %}
+            </ul>
         </div>
     </div>
 
-    <br>
-    especes : 
-    {% for espece in especes %}
-    <li>{{espece}}</li>
-{% endfor %}    
-
+    <div class="card">
+        <div class="card-header">especes :</div>
+        <div class="panel-body">
+            <ul class="list-unstyled">
+            {% for espece in especes %}
+            <li>{{espece["nom_f"]}}</li>
+             {% endfor %}
+            </ul>
+        </div>
+    </div>
+    
 {% endblock %}
