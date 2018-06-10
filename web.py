@@ -30,8 +30,8 @@ def form_data():
 
 @app.route('/rapport/<token>')
 def rapport(token):
-    r=rpn.rpn('data/'+token+'.shp')
-    return render_template('rapport.html',observateurs=r.observateurs())
+    r=rpn.rpn('data/'+token+'.gpkg')
+    return render_template('rapport.html',observateurs=r.observateurs(),especes=r.especes())
 
 if __name__ == '__main__':
     app.secret_key = os.urandom(24)
