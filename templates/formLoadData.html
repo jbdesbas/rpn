@@ -1,14 +1,27 @@
-<p>formulaire pour charger un shp
-<p>
-<form method='POST' enctype=multipart/form-data>
-    <input type="file" name="input_file" />
-    <input type="submit" value="Envoyer" />
-</form>
-<br>
-{% with messages = get_flashed_messages(with_categories=true) %}
-{% for category,message in messages %}
-  <li>{{ category }} : {{ message }}</li>
-{% endfor %}
-{% endwith %}
+{% extends 'base.html' %}
 
-<p>Rapport : <a href={{url_for('.rapport',token=token)}}>Rapport</a>
+
+{% block header %}
+  <h1>{% block title %}Charger des données{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+    <p>formulaire pour charger un shp
+    <p>
+    <form method='POST' enctype=multipart/form-data>
+        <input type="file" class="form-control-file" name="input_file" />
+        <input type="submit" class="btn btn-primary" value="Envoyer" />
+    </form>
+    <br>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% for category,message in messages %}
+      <li>{{ category }} : {{ message }}</li>
+    {% endfor %}
+    {% endwith %}
+
+
+    {% if token %}
+    <p>Rapport : <a href={{url_for('.rapport',token=token)}}>Rapport</a>
+    {% endif %}
+
+{% endblock %}

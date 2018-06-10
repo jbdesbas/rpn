@@ -1,6 +1,14 @@
-<h2>Rapport</h2>
+{% extends 'base.html' %}
 
-observateurs : 
-{% for observateur in observateurs %}
-<li>{{observateur}}</li>
-{% endfor %}
+
+{% block header %}
+    <h2>Rapport</h2>
+{% endblock %}
+
+
+{% block content %}
+    observateurs : 
+    {% for observateur in observateurs %}
+    <li>{{observateur}}</li>
+    {% endfor %}
+{% endblock %}
