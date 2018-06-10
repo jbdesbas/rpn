@@ -7,10 +7,17 @@
 
 
 {% block content %}
-    observateurs : 
-    {% for observateur in observateurs %}
-    <li>{{observateur}}</li>
-    {% endfor %}
+    <div class="card">
+    <div class="card-header">observateurs :</div>
+          <div class="panel-body"> 
+            <ul class="list-unstyled">
+         {% for observateur in observateurs %}
+             <li>{{observateur}}</li>
+         {% endfor %}
+        </ul>
+        </div>
+    </div>
+
     <br>
     especes : 
     {% for espece in especes %}
